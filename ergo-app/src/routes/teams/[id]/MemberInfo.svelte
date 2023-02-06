@@ -3,7 +3,6 @@
 	import timePassed from '$lib/util/timePassed';
 	import {
 		Alert,
-		Button,
 		ListPlaceholder,
 		Table,
 		TableBody,

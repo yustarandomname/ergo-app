@@ -65,12 +65,12 @@
 					</TableBodyRow>
 				{:else}
 					{#each members as member}
-						<TableBodyRow class="cursor-pointer">
+						<TableBodyRow class="cursor-pointer" on:click={() => handleMemberClick(member)}>
 							<TableBodyCell>{member.name}</TableBodyCell>
 							<TableBodyCell>{member.country}</TableBodyCell>
 							<TableBodyCell>{timePassed(member.updated_at)}</TableBodyCell>
 							<TableBodyCell>
-								<Button on:click={() => handleMemberClick(member)}>View</Button>
+								<Button>View</Button>
 							</TableBodyCell>
 						</TableBodyRow>
 					{/each}

@@ -109,6 +109,13 @@ export async function getTraining(rowerId: number, trainingId: number) {
 	const description = rowerTrainingPageDom?.querySelector('.result-comments')?.innerText;
 	if (description) training.description = description.replace(/^(\n*\s+)|\s+\n*$/g, '');
 
+	const created_at = rowerTrainingPageDom?.querySelector('.workout__details > h4')?.innerText;
+
+	if (created_at) {
+		const created_at_date = new Date(created_at);
+		if (created_at_date.valueOf()) training.created_at = created_at_date.toISOString();
+	}
+
 	return training;
 }
 
@@ -152,6 +159,15 @@ async function parseLogTable(logTable: HTMLElement, rowerId: number): Promise<Tr
 	return trainings;
 }
 
+export async function updateRowerUpdateTime(rowerId: number) {
+	const { data, error } = await supabase
+		.from('rowers')
+		.update({ updated_at: new Date().toISOString() })
+		.eq('id', rowerId);
+	console.log({ data, error });
+	return { data, error };
+}
+
 export async function getAllTrainingsFor(rowerId = 1789666): Promise<Training[]> {
 	const rowerPage = await axios.get(`/profile/${rowerId}/log`);
 
@@ -162,6 +178,8 @@ export async function getAllTrainingsFor(rowerId = 1789666): Promise<Training[]>
 	if (!logTable) throw Error(`Could not find rower ${rowerId}`);
 
 	const trainings = await parseLogTable(logTable, rowerId);
+
+	updateRowerUpdateTime(rowerId);
 
 	return trainings;
 }
