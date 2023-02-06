@@ -11,13 +11,6 @@ const supabase = createClient<Database>(PUBLIC_API_URL, PUBLIC_ANON_KEY);
 type Rower = Database['public']['Tables']['rowers']['Row'];
 type RowerConcept = Omit<Rower, 'created_at' | 'team_id'>;
 
-// interface Rower {
-// 	name: string;
-// 	url: string;
-// 	age: number;
-// 	country: string;
-// }
-
 /**
  * get the rowers from a team page
  * @param teamId id: number of the team to get the rowers from
