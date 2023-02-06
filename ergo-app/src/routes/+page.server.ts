@@ -1,14 +1,14 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-import { getAllTrainingsFor } from '$lib/util/getTrainings';
+import { selectTeam } from '$lib/util/getTeam';
 
 export const load = (async () => {
-	const trainings = await getAllTrainingsFor(1789666);
+	const rowers = await selectTeam(17833);
 
-	// TODO: if (trainings.length) {
-	return { trainings };
-	// }
+	if (rowers.length) {
+		return { rowers };
+	}
 
 	throw error(404, 'Not found');
 }) satisfies PageServerLoad;
