@@ -47,7 +47,7 @@
 </script>
 
 <div class="container mx-auto p-8">
-	<div class="flex justify-between">
+	<div class="flex justify-between gap-2 flex-col md:flex-row">
 		<h2 class="text-2xl">
 			Top
 			<Button color="light">
@@ -63,7 +63,7 @@
 			of the month
 			<!-- TODO: order ascending yes/no -->
 		</h2>
-		<Button disabled><Chevron>Filter</Chevron></Button>
+		<Button class="w-min" disabled><Chevron>Filter</Chevron></Button>
 		<Dropdown>
 			<DropdownItem>
 				<Checkbox bind:checked={includeBikes}>Include bikes</Checkbox>
