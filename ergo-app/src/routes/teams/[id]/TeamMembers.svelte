@@ -1,8 +1,10 @@
 <script lang="ts">
+	import type { Database } from '$lib/database.types';
 	import { supabase } from '$lib/util/supabase';
 	import timePassed from '$lib/util/timePassed';
 	import {
 		Alert,
+		Button,
 		ListPlaceholder,
 		Table,
 		TableBody,
@@ -11,9 +13,15 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
+	import MemberDrawer from './MemberDrawer.svelte';
 	import TeamMembersHeader from './TeamMembersHeader.svelte';
 
 	export let teamId: number;
+
+	type Rower = Database['public']['Tables']['rowers']['Row'];
+
+	let memberHidden = true;
+	let memberSeleced: Rower | null = null;
 
 	/**
 	 * Get team members from supabase database
@@ -23,6 +31,11 @@
 		let query = supabase.from('rowers').select('*').eq('team_id', teamId).order('name');
 
 		return query;
+	}
+
+	function handleMemberClick(member: Rower) {
+		memberHidden = false;
+		memberSeleced = member;
 	}
 </script>
 
@@ -56,7 +69,9 @@
 							<TableBodyCell>{member.name}</TableBodyCell>
 							<TableBodyCell>{member.country}</TableBodyCell>
 							<TableBodyCell>{timePassed(member.updated_at)}</TableBodyCell>
-							<TableBodyCell class="text-blue-500">View</TableBodyCell>
+							<TableBodyCell>
+								<Button on:click={() => handleMemberClick(member)}>View</Button>
+							</TableBodyCell>
 						</TableBodyRow>
 					{/each}
 				{/if}
@@ -64,3 +79,7 @@
 		</TableBody>
 	</Table>
 </TeamMembersHeader>
+
+{#if !memberHidden && memberSeleced}
+	<MemberDrawer bind:memberHidden memberSelected={memberSeleced} />
+{/if}
