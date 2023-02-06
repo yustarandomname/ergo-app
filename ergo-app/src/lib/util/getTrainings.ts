@@ -1,12 +1,12 @@
 import { parse, type HTMLElement } from 'node-html-parser';
 import { Axios } from 'axios';
+import { SECRET_CONCEPT_COOKIE } from '$env/static/private';
 
 const axios = new Axios({
 	baseURL: 'https://log.concept2.com',
 	timeout: 10000,
 	headers: {
-		Cookie:
-			'_ga=GA1.2.750473867.1671725739; remember_82e5d2c56bdd0811318f0cf078b78bfc=eyJpdiI6IjE1VGlUNFVKTldrSWExNnZaMzdrQ3c9PSIsInZhbHVlIjoiWHdDZTZPNUVrN3N1aUZwU1ViV0EzQWNcL0tqU3JcL1B0dWttMFU0Y2dWN0tEcWZOU0FBT2xsYzlGeVRvWkI0MlAwcFFZdHpteFlCVEl0MDR0MWh0NmM5cUFnVGE4TnJDdm16dWlEYk9QUlc5WT0iLCJtYWMiOiJlMjNhODMzMmI5NDQwYWZiNzYxOTAzYzFjZTVjYmJjODJhN2I3ZTRlNTZiMjRkZGQ2NjI0YzljNjJjMGJkZTljIn0%3D; _ga_RZEDGXZ0LQ=GS1.1.1674845128.2.0.1674845131.57.0.0; __zlcmid=1DwlWo4AdQJhRNL; _vwo_uuid_v2=DBE1A6FBD5176CC3AF8B13E7A3802EE97|577fa0dc9b9115155404c443807c26a6; _hjSessionUser_863078=eyJpZCI6IjA2MzkzZWNhLTFkOGQtNTJkMi04ZGRmLWIxZTE0ZjQ3OWZhMyIsImNyZWF0ZWQiOjE2NzM3OTM2MjYyMjAsImV4aXN0aW5nIjp0cnVlfQ==; last_30=distance; _gid=GA1.2.440496109.1675174210;'
+		Cookie: SECRET_CONCEPT_COOKIE
 	}
 });
 

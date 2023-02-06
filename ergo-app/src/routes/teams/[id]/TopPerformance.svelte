@@ -20,8 +20,9 @@
 	let orderAscending = false;
 
 	async function top5Performances() {
-		// Begin of this month
+		// Begin of this month - 1 month
 		const start = new Date();
+		start.setMonth(start.getMonth() - 1);
 		start.setDate(1);
 		start.setHours(0, 0, 0, 0);
 
