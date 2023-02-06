@@ -16,6 +16,7 @@ export interface Database {
           id: number
           name: string
           team_id: number | null
+          updated_at: string | null
           url: string
         }
         Insert: {
@@ -24,6 +25,7 @@ export interface Database {
           id?: number
           name: string
           team_id?: number | null
+          updated_at?: string | null
           url: string
         }
         Update: {
@@ -32,6 +34,7 @@ export interface Database {
           id?: number
           name?: string
           team_id?: number | null
+          updated_at?: string | null
           url?: string
         }
       }

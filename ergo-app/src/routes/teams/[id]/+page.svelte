@@ -1,10 +1,11 @@
 <script lang="ts">
-	import TopPerformance from './TopPerformance.svelte';
 	import type { PageData } from './$types';
+	import TeamMembers from './TeamMembers.svelte';
+	import TopPerformance from './TopPerformance.svelte';
 
 	export let data: PageData;
 </script>
 
-<TopPerformance />
+<TopPerformance teamId={data.teamId} />
 
-{JSON.stringify(data)}
+<TeamMembers teamId={data.teamId} />

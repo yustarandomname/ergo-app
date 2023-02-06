@@ -8,10 +8,13 @@
 		TableBodyRow,
 		TableHead,
 		TableHeadCell,
-		ListPlaceholder
+		ListPlaceholder,
+		Alert
 	} from 'flowbite-svelte';
 
 	import TopPerformanceHeader from './TopPerformanceHeader.svelte';
+
+	export let teamId: number;
 
 	let orderByKey: keyof Database['public']['Tables']['trainings']['Row'] = 'meters';
 	let orderAscending = false;
@@ -22,19 +25,21 @@
 		start.setDate(1);
 		start.setHours(0, 0, 0, 0);
 
+		console.log({ teamId });
+
 		let query = supabase
 			.from('trainings')
-			.select('*, rower_id (name)')
+			.select('*, rower_id!inner(name, team_id)')
 			.gte('created_at', start.toISOString());
 
+		query = query.eq('rower_id.team_id', teamId);
 		query = query.order(orderByKey, { ascending: orderAscending });
 
 		return query.limit(5);
 	}
 
-	type RowerId = (number & { name: unknown }) | (number & { name: unknown }[]);
-
-	function getRowerName(rowerId: RowerId): string {
+	function getRowerName(rowerId: any): string {
+		if (!rowerId) return 'unknown';
 		if (Array.isArray(rowerId)) {
 			return rowerId.map((rower) => rower.name).join(', ');
 		}
@@ -63,7 +68,10 @@
 					{#if error}
 						<TableBodyRow>
 							<td colspan="4">
-								<h1>TODO: {JSON.stringify(error)}</h1>
+								<Alert color="red">
+									<span class="font-medium">Error!</span>
+									{error.message}
+								</Alert>
 							</td>
 						</TableBodyRow>
 					{:else}
