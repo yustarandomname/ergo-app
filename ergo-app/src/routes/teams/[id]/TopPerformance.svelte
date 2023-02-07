@@ -62,7 +62,7 @@
 				{#await top5Performances()}
 					<TableBodyRow>
 						<td colspan="4">
-							<ListPlaceholder class="max-w-full" />
+							<ListPlaceholder class="!max-w-full" />
 						</td>
 					</TableBodyRow>
 				{:then { data: trainings, error }}
