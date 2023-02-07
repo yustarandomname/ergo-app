@@ -15,7 +15,11 @@
 	export let rowerId: number;
 
 	function getTrainings(rowerId: number) {
-		let query = supabase.from('trainings').select('*').eq('rower_id', rowerId);
+		let query = supabase
+			.from('trainings')
+			.select('*')
+			.eq('rower_id', rowerId)
+			.order('created_at', { ascending: false });
 		return query;
 	}
 </script>

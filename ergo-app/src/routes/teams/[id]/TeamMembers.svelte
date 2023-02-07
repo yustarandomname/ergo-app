@@ -22,6 +22,7 @@
 
 	let memberHidden = true;
 	let memberSeleced: Rower | null = null;
+	let last_updated: string | null = null;
 
 	/**
 	 * Get team members from supabase database
@@ -37,6 +38,17 @@
 		memberHidden = false;
 		memberSeleced = member;
 	}
+
+	function supscribeToUpdates() {
+		supabase
+			.channel('custom-update-channel')
+			.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rowers' }, (payload) => {
+				last_updated = new Date().toISOString();
+			})
+			.subscribe();
+	}
+
+	supscribeToUpdates();
 </script>
 
 <TeamMembersHeader>
@@ -47,35 +59,37 @@
 			<TableHeadCell>Last updated</TableHeadCell>
 		</TableHead>
 		<TableBody>
-			{#await getTeam(teamId)}
-				<TableBodyRow>
-					<td colspan="4">
-						<ListPlaceholder class="max-w-full" />
-					</td>
-				</TableBodyRow>
-			{:then { data: members, error }}
-				{#if error}
+			{#key last_updated}
+				{#await getTeam(teamId)}
 					<TableBodyRow>
 						<td colspan="4">
-							<Alert color="red">
-								<span class="font-medium">Error!</span>
-								{error.message}
-							</Alert>
+							<ListPlaceholder class="max-w-full" />
 						</td>
 					</TableBodyRow>
-				{:else}
-					{#each members as member}
-						<TableBodyRow class="cursor-pointer" on:click={() => handleMemberClick(member)}>
-							<TableBodyCell>{member.name}</TableBodyCell>
-							<TableBodyCell>{member.country}</TableBodyCell>
-							<TableBodyCell>{timePassed(member.updated_at)}</TableBodyCell>
-							<TableBodyCell>
-								<Button>View</Button>
-							</TableBodyCell>
+				{:then { data: members, error }}
+					{#if error}
+						<TableBodyRow>
+							<td colspan="4">
+								<Alert color="red">
+									<span class="font-medium">Error!</span>
+									{error.message}
+								</Alert>
+							</td>
 						</TableBodyRow>
-					{/each}
-				{/if}
-			{/await}
+					{:else}
+						{#each members as member}
+							<TableBodyRow class="cursor-pointer" on:click={() => handleMemberClick(member)}>
+								<TableBodyCell>{member.name}</TableBodyCell>
+								<TableBodyCell>{member.country}</TableBodyCell>
+								<TableBodyCell>{timePassed(member.updated_at)}</TableBodyCell>
+								<TableBodyCell>
+									<Button>View</Button>
+								</TableBodyCell>
+							</TableBodyRow>
+						{/each}
+					{/if}
+				{/await}
+			{/key}
 		</TableBody>
 	</Table>
 </TeamMembersHeader>
