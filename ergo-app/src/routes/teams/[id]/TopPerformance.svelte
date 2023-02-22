@@ -49,7 +49,7 @@
 </script>
 
 <TopPerformanceHeader bind:orderByKey bind:ascending={orderAscending}>
-	<Table class="mt-4">
+	<Table class="mt-1">
 		<TableHead>
 			<TableHeadCell>Rower</TableHeadCell>
 			<TableHeadCell>Name</TableHeadCell>
